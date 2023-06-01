@@ -1,7 +1,7 @@
-const url = 'https://platzi-avo.vercel.app/api/avo'
+const API = 'https://platzi-avo.vercel.app/api/avo'
 
 window
-    .fetch(url)
+    .fetch(API)
     .then(response => response.json())
     .then(responseJSON => {
         const allItems = []
