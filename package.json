@@ -1,4 +1,5 @@
 {
+  "homepage": "https://joseuribeh98.github.io/DOM-Manipulation",
   "scripts": {
     "start": "snowpack dev",
     "build": "snowpack build",
