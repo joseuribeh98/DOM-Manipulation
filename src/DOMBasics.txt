@@ -1,0 +1,129 @@
+El DOM o Document Object Model es una representación del HTML 
+que se estructura en forma de árbol de nodos y es un modelo que 
+puede ser modificado. Cada nodo es un objeto HTML.
+
+El CSSOM por su parte es una representación del código CSS.
+
+DOM + JS = Web API
+Existen más de 70 Web APIs, el DOM es solo una de ellas.
+
+Biblias del desarrollo Web
+------------------------------
+Cómo lo uso?
+developer.mozilla.org
+Puedo usarlo?
+caniuse.com
+
+Cómo leer nodos?
+------------------------------
+
+document.getElementById('ID') (Selecciona un elemento por su ID)
+parent.getElementByTagName('ETIQUETA') (Selecciona un elemento por su etiqueta)
+parent.getElementByClassName('CLASE') (Selecciona un elemento por su clase)
+
+
+Son los mas usados por flexibilidad y capacidad:
+
+parentElement.querySelector('') (Puedo seleccionar cualquier cosa que yo especifique en el string --Si quiero seleccionar una clase debe empezar por .; si es un id debe empezar por #)
+parentElement.querySelectorAll('') (Funciona igual que querySelector pero trae todos los elementos en vez de solo uno)
+
+querySelectorAll() arroja un NodeList que es diferente a un Array
+NodeList tiene menos metodos que un array como map, some, filter, reduce y demás.
+Se puede convertir a un array así:
+const nodeListAsArray = [...NodeList]
+
+Crear nodos
+------------------------------
+document.createElement('ELEMENTO')
+document.createTextNode('TEXTO') Se crea un nodo con texto, si agrego HTML se va a pasar solo como una cadena de texto
+
+NODO A AGREGAR = document.createElement('h3')
+const NODO_DE_REFERENCIA = document.querySelector('div')
+
+
+appendChild()
+NODO_DE_REFERENCIA.appendChild(NODO A AGREGAR) (Solo agrega un elemento)
+
+append()
+NODO_DE_REFERENCIA.append(NODO A AGREGAR 1, NODO A AGREGAR 2) (Agrega uno o más elementos)
+
+insertBefore()
+NODO_PADRE.insertBefore(NODO A AGREGAR, NODO_DE_REFERENCIA) (Inserta un elemento antes de un nodo que usemos como referencia)
+
+insertAdjacentElement()
+NODO_DE_REFERENCIA.insertAdjacentElement('posicion', NODO A AGREGAR) (Es el mas poderoso)
+
+    posiciones:
+    beforebegin = Antes de la referencia
+    afterbegin = Justo después de la referencia
+    beforeend = Antes de finalizar el nodo
+    afterend = Después de donde finaliza el nodo
+
+node.outerHTML() - Para leer
+Devuelve el HTML de ese elemento como una cadena de texto
+node.innerHTML() - Para escribir
+Devuelve lo que hay dentro de ese elemento y también le puedo pasar un nuevo contenido como un parametro string
+
+Un elemento HTMl tiene varios atributos como por ejemplo placeholder='', class='', id=''
+Al usar la siguiente sintaxis puedo acceder a los atributos de cada elemento
+Por ejemplo:
+
+Input:
+img.src
+
+Output:
+'./src/assets/imagen.jpg'
+
+Los atributos reflejan el estado inicial según el código HTML, mientras que las propiedades reflejan el estado actual del DOM en tiempo real.
+Por ejemplo, en el elemento:
+    <input id="myInput" type="text" value="Valor Inicial">
+    id, type, y value son atributos del elemento input.
+
+    Si usamos JavaScript para acceder a este elemento y cambiar su valor:
+    var inputElement = document.getElementById('myInput');
+    inputElement.value = 'Nuevo Valor';
+
+    Después de ejecutar este código, la propiedad value del objeto inputElement en el DOM ha cambiado a 'Nuevo Valor'.
+    Pero si inspeccionas el código HTML en tu navegador, verás que el atributo value aún dice "Valor Inicial". Eso es porque los atributos representan el estado inicial como se especificó en el código HTML.
+    
+    Por otro lado, si accedes al atributo value usando el método getAttribute, obtendrías el valor inicial:
+    var originalValue = inputElement.getAttribute('value');
+    console.log(originalValue);  // "Valor Inicial"
+    
+    Mientras que al acceder a la propiedad value obtendrías el nuevo valor:
+    var currentValue = inputElement.value;
+    console.log(currentValue);  // "Nuevo Valor"
+
+Eliminar nodos
+------------------------------
+parentElement.removeChild() - Sirve para eliminar nodos teniendo una referencia.
+
+Para seleccionar el parent más facil puedo usar:
+const padre = nodoAEliminar.parentElement
+padre.removeChild()
+
+parentElement.remove() - Es la evolucion de removeChild() no pide el parentElement
+referencia.remove()
+
+parentElement.replaceChild() - No es propiamente para eliminar, pero se puede usar para estado
+
+
+Operaciones en lote
+------------------------------
+Tarea: Agregar 100 inputs al finalizar el body
+
+Solución común:
+for (let i = 0; i < 100; i++) {
+    const node = document.createElement('input')
+    document.body.appendChild(node)
+}
+
+Solución óptima:
+const nodos = []
+
+for (let i = 0; i < 100; i++) {
+    const node = document.createElement('input')
+    nodos.push(node)
+}
+
+document.body.append(...nodos)
